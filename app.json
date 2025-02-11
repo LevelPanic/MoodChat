@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MoodChat",
-    "slug": "MoodChat",
+    "slug": "moodchat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "57489100-7490-4f00-9b2a-1ca2b84ded29"
+      }
+    },
+    "owner": "muhtasham"
   }
 }
