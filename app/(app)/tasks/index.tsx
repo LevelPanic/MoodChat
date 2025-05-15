@@ -5,9 +5,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import { router } from 'expo-router';
+import {router, useFocusEffect} from 'expo-router';
 import TabContent from './tab';
 import Cross from '@/components/icons/Cross';
 import styles from '@/assets/styles';
@@ -83,7 +82,7 @@ const Tasks = () => {
         <Tab.Navigator
           screenOptions={{
             tabBarStyle: {backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0},
-            tabBarLabel: (props) => <Text style={{color: '#fefdfe'}}>{props.children}</Text>,
+            tabBarLabel: (props: any) => <Text style={{color: '#fefdfe'}}>{props.children}</Text>,
           }}>
           <Tab.Screen
             name={'all'}

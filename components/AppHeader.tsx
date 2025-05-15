@@ -1,7 +1,7 @@
 import React from "react"
 import { Image, Pressable, Text, TouchableOpacity, View } from "react-native"
+import { Router } from "expo-router";
 import { DrawerHeaderProps } from "@react-navigation/drawer";
-import { NativeStackHeaderProps } from "@react-navigation/native-stack/src/index";
 import Back from "./icons/Back";
 import Hamburger from "./icons/Hamburger";
 
@@ -26,15 +26,13 @@ export const DrawerHeader = (props: DrawerHeaderProps) => {
     )
 };
 
-export const NativeStackHeader = (props: NativeStackHeaderProps) => {
+export const NativeStackHeader = (props: {router: Router}) => {
     const {
-        route,
-        navigation,
-        options
+        router
     } = props;
     return (
         <View style={{paddingHorizontal: 15, paddingVertical: 12, backgroundColor: '#222531', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomColor: '#555', borderBottomWidth: 1}}>
-            <Pressable hitSlop={15} style={{width: 30}} onPress={() => navigation.goBack()}>
+            <Pressable hitSlop={15} style={{width: 30}} onPress={() => router.back()}>
                 <Back name="arrow-back" size={25} color="#FFF" />
             </Pressable>
             <View style={{height: 70, width: 70, marginTop: -10, marginBottom: -30, backgroundColor: '#333642', borderRadius: 100, alignItems: 'center', justifyContent: 'center'}}>

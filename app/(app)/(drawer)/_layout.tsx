@@ -3,16 +3,16 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { Drawer } from 'expo-router/drawer'; 
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Colors } from '@/constants/Colors';
+// import { useColorScheme } from '@/hooks/useColorScheme';
+// import { Colors } from '@/constants/Colors';
 
 // Custom drawer content
-import { CustomDrawerContent } from '@/components/ui/CustomDrawerContent';
+import { CustomDrawerContent } from '@/components/CustomDrawerContent';
 import { DrawerHeader } from '@/components/AppHeader';
 
 export default function DrawerLayout() {
-  const colorScheme = useColorScheme();
-  const currentColors = Colors[colorScheme ?? 'light'];
+  // const colorScheme = useColorScheme();
+  // const currentColors = Colors[colorScheme ?? 'light'];
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

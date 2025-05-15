@@ -1,14 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function CustomDrawerContent(props: DrawerContentComponentProps) {
+  const { logout } = useAuth();
   return (
     <DrawerContentScrollView {...props}>
       {/* Profile Section */}
@@ -25,6 +27,16 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
 
       {/* The actual Drawer items (Home, Chat, Settings, etc.) */}
       <DrawerItemList {...props} />
+
+      {/* Logout Button */}
+      <TouchableOpacity onPress={() => {
+        // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
+        logout();
+        router.replace('/sign-in');
+      }}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
+
     </DrawerContentScrollView>
   );
 }

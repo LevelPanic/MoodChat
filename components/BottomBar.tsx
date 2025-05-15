@@ -25,7 +25,7 @@ export default () => {
       overflow: 'hidden'
     }}>
       <View style={{width: '25%', backgroundColor: currentRoute === '/' ? '#787f9a' : 'transparent'}}>
-        <Link href={'/(drawer)'}>
+        <Link href={'/(app)/(drawer)'}>
           <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
             <IconSymbol size={24} name="house.fill" color={'#fefdfe'} />
             <Text style={{fontSize: 10, color: '#fefdfe'}}>Home</Text>
@@ -33,7 +33,7 @@ export default () => {
         </Link>
       </View>
       <View style={{width: '25%', backgroundColor: currentRoute === '/chat' ? '#787f9a' : 'transparent'}}>
-        <Link href={'/(drawer)/chat'}>
+        <Link href={'/(app)/(drawer)/chat'}>
           <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
             <IconSymbol size={24} name="character.bubble.fill" color={'#fefdfe'} />
             <Text style={{fontSize: 10, color: '#fefdfe'}}>Chat</Text>
@@ -41,7 +41,7 @@ export default () => {
         </Link>
       </View>
       <View style={{width: '25%', backgroundColor: currentRoute.includes('/tasks') ? '#787f9a' : 'transparent'}}>
-        <Link href={'/(drawer)/tasks'}>
+        <Link href={'/(app)/(drawer)/tasks'}>
           <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
             <IconSymbol size={24} name="clipboard" color={'#fefdfe'} />
             <Text style={{fontSize: 10, color: '#fefdfe'}}>Tasks</Text>
@@ -49,7 +49,7 @@ export default () => {
         </Link>
       </View>
       <View style={{width: '25%', backgroundColor: currentRoute === '/settings' ? '#787f9a' : 'transparent'}}>
-        <Link href={'/(drawer)/settings'}>
+        <Link href={'/(app)/(drawer)/settings'}>
           <View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
             <IconSymbol size={24} name="control" color={'#fefdfe'} />
             <Text style={{fontSize: 10, color: '#fefdfe'}}>Settings</Text>

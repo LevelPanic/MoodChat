@@ -1,7 +1,7 @@
 import React from 'react';
 import {ActivityIndicator, FlatList, Text, TextInput, View} from 'react-native';
 import styles from '@/assets/styles';
-import TicketCard from '../../components/Card';
+import TicketCard from '@/components/Card';
 import NoTicketsData from '@/components/icons/NoTasks';
 import Search from '@/components/icons/Search';
 
