@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Pressable, SafeAreaView } from 'react-native';
-import Modal from 'react-native-modal';
+import React, { useCallback, useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Pressable, SafeAreaView, BackHandler } from 'react-native';
 import Mail from '@/components/icons/Mail';
 import Profile from '@/components/icons/Profile';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 const ProfileScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('images');
+
+   // When hardware back is pressed, go back in the router
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        router.back();
+        return true; // prevent default behavior
+      };
+
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress
+      );
+
+      return () => subscription.remove();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -73,18 +90,6 @@ const ProfileScreen = () => {
             ))}
           </View>
         )}
-
-        {/* Modal for Menu Options */}
-        <Modal isVisible={modalVisible} onBackdropPress={() => setModalVisible(false)}>
-          <View style={styles.modalContainer}>
-            {/* <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalCloseButton}>
-              <Icon name="close" size={24} color="#000" />
-            </TouchableOpacity> */}
-            <Text style={styles.modalOption}>Edit Profile</Text>
-            <Text style={styles.modalOption}>Settings</Text>
-            <Text style={styles.modalOption}>Logout</Text>
-          </View>
-        </Modal>
 
         <View style={styles.endSpacing} />
 

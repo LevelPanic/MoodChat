@@ -4,25 +4,37 @@ import {
   Text, 
   StyleSheet,
   TouchableOpacity, 
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import BottomBar from '@/components/BottomBar';
+import { useAuth } from '@/contexts/AuthContext';
+import { w } from '@/utils/helpers';
 
 export default function SettingsScreen() {
+  const { user } = useAuth();
+  console.log(user);
   return (
     <>
       <ScrollView style={styles.container}>
         {/* Profile Section */}
         <Link href={'/profile'} style={{alignSelf: "center"}}>
           <View style={styles.profileSection}>
-            {/* Placeholder icon for user */}
-            <Ionicons name="person-circle-outline" size={80} color="#aaa" />
-            
+            <View style={styles.profileImageContainer}>
+              {!user?.photo ? <>
+                {/* Placeholder icon for user */}
+                <Ionicons name="person-circle-outline" size={80} color="#aaa" />
+              </> : (
+                <Image src={user.photo} style={{height: 80, width: 80, borderRadius: 40}} />
+              )}
+            </View>
             {/* Replace with user's name and email, or remove if not needed */}
-            <Text style={styles.profileName}>John Doe</Text>
-            <Text style={styles.profileEmail}>john.doe@example.com</Text>
+            <View style={styles.profileTextView}>
+              <Text style={styles.profileName}>{user?.name}</Text>
+              <Text style={styles.profileEmail}>{user?.email}</Text>
+            </View>
           </View>
         </Link>
 
@@ -70,25 +82,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   profileSection: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    width: w(0.6),
     backgroundColor: '#323645',
     alignSelf: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 20,
     borderWidth: 1,
     borderColor: "#323645",
     borderRadius: 20,
   },
+  profileImageContainer: {
+      width: '100%',
+      alignItems: 'center'
+  },
+  profileTextView: {
+      width: '100%',
+      alignItems: 'center'
+  },
   profileName: {
+    textAlign: 'center',
     marginTop: 10,
     color: '#fefdfe',
     fontSize: 20,
     fontWeight: 'bold',
   },
   profileEmail: {
-    paddingBottom: 15,
+    textAlign: 'center',
+    paddingBottom: 20,
     fontSize: 14,
     color: '#aaa',
-    width: '100%',
   },
   settingsSection: {
     marginTop: 20,
