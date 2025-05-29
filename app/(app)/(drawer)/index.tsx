@@ -2,9 +2,11 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import BottomBar from '@/components/BottomBar';
 import { useRouter } from 'expo-router';
+import { useMood } from '@/contexts/MoodContext';
 
 export default function HomeScreen() {
   const navigation = useRouter();
+  const { mood, setMood } = useMood();
   return (
     <View style={{flex: 1, backgroundColor: '#111420'}}>
       <ScrollView style={styles.container}>
@@ -13,13 +15,13 @@ export default function HomeScreen() {
         <View style={[styles.card, { backgroundColor: "#FFE4B5", width: '100%', flexDirection: 'row' }]}>
           <Text style={styles.cardTitle}>Mood Today</Text>
           <View style={styles.moodRow}>
-            <TouchableOpacity style={styles.moodIcon}>
+            <TouchableOpacity onPress={() => setMood('happy')} style={[styles.moodIcon, mood === 'happy' ? styles.activeMood : {}]}>
               <Text style={styles.moodEmoji}>😊</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moodIcon}>
+            <TouchableOpacity onPress={() => setMood('neutral')} style={[styles.moodIcon, mood === 'neutral' ? styles.activeMood : {}]}>
               <Text style={styles.moodEmoji}>😐</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moodIcon}>
+            <TouchableOpacity onPress={() => setMood('sad')} style={[styles.moodIcon, mood === 'sad' ? styles.activeMood : {}]}>
               <Text style={styles.moodEmoji}>😔</Text>
             </TouchableOpacity>
           </View>
@@ -145,6 +147,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginHorizontal: 5,
+  },
+  activeMood: {
+    backgroundColor: '#287156'
   },
   moodEmoji: {
     fontSize: 20,

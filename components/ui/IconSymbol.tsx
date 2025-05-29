@@ -14,6 +14,7 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'character.bubble.fill': 'chatbubble-outline',
   'control': 'settings-outline',
+  'character.book.closed': 'exit-outline',
   'clipboard': 'clipboard-outline',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-forward',

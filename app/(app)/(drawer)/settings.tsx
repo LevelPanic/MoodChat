@@ -15,7 +15,6 @@ import { w } from '@/utils/helpers';
 
 export default function SettingsScreen() {
   const { user } = useAuth();
-  console.log(user);
   return (
     <>
       <ScrollView style={styles.container}>

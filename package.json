@@ -21,6 +21,7 @@
     "@react-navigation/material-top-tabs": "^7.2.13",
     "@react-navigation/native": "^7.1.9",
     "@tanstack/react-query": "^5.64.2",
+    "axios": "^1.9.0",
     "expo": "^53.0.8",
     "expo-auth-session": "~6.1.5",
     "expo-blur": "~14.1.4",

@@ -57,28 +57,43 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   chatBody: {
+    zIndex: 1,
+    flexGrow: 1,
     padding: 10,
-    backgroundColor: "#D0D0D0"
+    paddingBottom: 30,
+    // backgroundColor: "#D0D0D0"
   },
 
   // Messages
   messageBubble: {
     maxWidth: '70%',
+    minWidth: '30%',
+    flexDirection: 'column',
+    flexShrink: 1,
     borderRadius: 15,
     padding: 10,
     marginVertical: 5,
   },
   myMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#c6f8e6',
+    backgroundColor: '#094E35',
   },
   otherMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#fff',
+    backgroundColor: '#444',
   },
   messageText: {
     fontSize: 16,
-    color: "#000"
+    color: "#EFEFEF"
+  },
+  timestamp: {
+    color: '#aaa',
+    marginTop: 3,
+    marginBottom: -5,
+    fontSize: 10,
+    width: '100%', 
+    alignSelf: 'flex-end',
+    textAlign: 'right'
   },
 
   // Text Message
@@ -149,7 +164,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: '#111420',
     color: '#fefdfe',
-    marginHorizontal: 10,
+    marginRight: 10,
+  },
+  sendButton: {
+    paddingHorizontal: 10
   },
   menuContainer: {
     backgroundColor: '#fff',

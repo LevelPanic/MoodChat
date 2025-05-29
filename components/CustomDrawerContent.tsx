@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -8,19 +8,27 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Link, router } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
+import { IconSymbol } from './ui/IconSymbol';
 
 export function CustomDrawerContent(props: DrawerContentComponentProps) {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} contentContainerStyle={{height: '100%'}}>
       {/* Profile Section */}
-      <Link href={'/profile'} style={{alignSelf: 'center', paddingTop: 50, paddingBottom: 20}}>
-        <View style={styles.profileContainer}>
-          {/* You can use Ionicons, an Image, or your custom IconSymbol here */}
-          <Ionicons name="person-circle-outline" size={60} color="#aaa" />
-          <View style={styles.profileTextContainer}>
-            <Text style={styles.name}>John Doe</Text>
-            <Text style={styles.email} ellipsizeMode='tail'>john.doe@example.com</Text>
+      <Link href={'/profile'} style={{alignSelf: "center", paddingVertical: 30}}>
+        <View style={styles.profileSection}>
+          <View style={styles.profileImageContainer}>
+            {!user?.photo ? <>
+              {/* Placeholder icon for user */}
+              <Ionicons name="person-circle-outline" size={80} color="#aaa" />
+            </> : (
+              <Image src={user.photo} style={{height: 80, width: 80, borderRadius: 40}} />
+            )}
+          </View>
+          {/* Replace with user's name and email, or remove if not needed */}
+          <View style={styles.profileTextView}>
+            <Text style={styles.profileName}>{user?.name}</Text>
+            <Text style={styles.profileEmail}>{user?.email}</Text>
           </View>
         </View>
       </Link>
@@ -33,36 +41,48 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
         // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
         logout();
         router.replace('/sign-in');
-      }}>
-        <Text>Logout</Text>
+      }} style={{position: 'absolute', width: '100%', flexDirection: 'row', alignItems: 'center', left: 30, bottom: 30}}>
+        <IconSymbol size={28} name="character.book.closed" color={'#FFF'} />
+        <Text style={{color: 'white', fontWeight: 'bold', marginLeft: 10}}>Logout</Text>
       </TouchableOpacity>
-
     </DrawerContentScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  profileContainer: {
-    alignItems: 'center',
-    backgroundColor: '#333642',
-    borderRadius: 12,
-    padding: 20,
-  },
-  profileTextContainer: {
-    paddingTop: 10,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 2,
-    textAlign: 'center',
-    color: '#FFF'
-  },
-  email: {
-    fontSize: 14,
+  profileSection: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     width: '100%',
-    paddingBottom: 5,
+    backgroundColor: '#323645',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    borderWidth: 1,
+    borderColor: "#323645",
+    borderRadius: 20,
+  },
+  profileImageContainer: {
+      width: '100%',
+      alignItems: 'center'
+  },
+  profileTextView: {
+      width: '100%',
+      alignItems: 'center'
+  },
+  profileName: {
+    textAlign: 'center',
+    marginTop: 10,
+    color: '#fefdfe',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  profileEmail: {
+    textAlign: 'center',
+    paddingBottom: 20,
+    fontSize: 14,
     color: '#aaa',
-    textAlign: 'center'
   },
 });
