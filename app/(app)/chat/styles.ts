@@ -170,14 +170,105 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   menuContainer: {
-    backgroundColor: '#fff',
+    alignItems: 'center',
     padding: 20,
     borderRadius: 10,
   },
   menuOption: {
     fontSize: 18,
-    color: '#000',
-    marginVertical: 10,
+    color: '#FFF',
+    marginVertical: 15,
+  },
+  separator: {
+    width: '50%',
+    borderBottomWidth: 0.5,
+    borderColor: '#444'
+  },
+
+
+  // Task Sheet Styles
+  sheetContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+  },
+  sheetSubmit: {
+    borderTopWidth: 0.5,
+    borderColor: '#4a4a4a',
+    width: '100%',
+    height: 80,
+    padding: 16
+  },
+  sheetSubmitBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#287156',
+    borderRadius: 15
+  },
+  sheetSubmitBtnDisabled: {
+    backgroundColor: '#144028',
+    borderWidth: 1,
+    borderColor: '#1f6a4d'
+  },
+  sheetSubmitBtnTxt: {
+    fontSize: 16,
+    color: '#FFF'
+  },
+  taskContainer: {
+    borderWidth: 1,
+    borderColor: '#555555',
+    marginBottom: 12,
+    borderRadius: 15,
+    padding: 12,
+    backgroundColor: '#121212',
+  },
+  taskBtn: {
+    flexDirection: 'row'
+  },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#EFEFEF'
+  },
+  blockStart: {
+    marginBottom: 12,
+  },
+  taskDescription: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#EFEFEF'
+  },
+  blockFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  reminderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  radioOuter: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#333',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#4caf50',
+  },
+  radioSelected: {
+    borderColor: '#4caf50',
+  },
+  radioLabel: {
+    fontSize: 14,
+    color: '#EFEFEF'
   },
 });
 

@@ -1,19 +1,41 @@
+// src/screens/tasks/tab.tsx
 import React from 'react';
-import {ActivityIndicator, FlatList, Text, TextInput, View} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TextInput,
+} from 'react-native';
 import styles from '@/assets/styles';
 import TicketCard from '@/components/Card';
 import NoTicketsData from '@/components/icons/NoTasks';
 import Search from '@/components/icons/Search';
+import { ParsedTask, Task } from '@/types';
 
-const TabContent = ({
+interface TabContentProps {
+  data: Task[];
+  loading: boolean;
+  handleTaskPress: (item: Task) => void;
+  handleTaskLongPress: (item: Task) => void;
+  refetch: () => void;
+}
+
+export default function TabContent({
   data,
   loading,
-  hasNextPage,
-  fetchNextPage,
+  handleTaskPress,
+  handleTaskLongPress,
   refetch,
-  search,
-  setSearch,
-}: any) => {
+}: TabContentProps) {
+  const [search, setSearch] = React.useState('');
+
+  // filter client‐side by details/title
+  const filtered = data.filter((t) =>
+    t.title.toLowerCase().includes(search.toLowerCase()) ||
+    t.description.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <View style={styles.container}>
       <View
@@ -24,51 +46,42 @@ const TabContent = ({
           styles.br8,
           styles.mv15,
           styles.ph15,
-          {borderColor: '#434756', height: 42},
-        ]}>
+          { borderColor: '#434756', height: 42 },
+        ]}
+      >
         <Search />
         <TextInput
           value={search}
           placeholder="Search..."
-          style={[styles.ml10, {width: '75%'}]}
+          style={[styles.ml10, { width: '75%' }]}
           onChangeText={setSearch}
           placeholderTextColor={'#fefdfe'}
-          keyboardType="numeric"
         />
       </View>
 
       {loading ? (
         <ActivityIndicator
-          size={'large'}
-          style={{marginTop: 200}}
-          color={'#1b7a6d'}
+          size="large"
+          style={{ marginTop: 200 }}
+          color="#1b7a6d"
         />
       ) : (
         <FlatList
-          data={data}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-          onEndReachedThreshold={5}
+          data={filtered}
+          keyExtractor={(item) => item.title + item.due}
           refreshing={loading}
-          contentContainerStyle={{paddingBottom: 20}}
-          onRefresh={() => {
-            refetch();
-          }}
-          onEndReached={() => {
-            if (hasNextPage) {
-              fetchNextPage();
-            }
-          }}
-          renderItem={({item}) => <TicketCard item={item} />}
+          onRefresh={refetch}
+          contentContainerStyle={{ paddingBottom: 20 }}
           ListEmptyComponent={() => (
-            <View style={[styles.itc, {marginTop: 100}]}>
+            <View style={[styles.itc, { marginTop: 100 }]}>
               <NoTicketsData />
             </View>
+          )}
+          renderItem={({ item }) => (
+            <TicketCard item={item} handleTaskPress={handleTaskPress} handleTaskLongPress={handleTaskLongPress} />
           )}
         />
       )}
     </View>
   );
-};
-
-export default TabContent;
+}

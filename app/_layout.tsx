@@ -15,6 +15,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MoodProvider } from '@/contexts/MoodContext';
 import { DeepSeekProvider } from '@/contexts/DeepSeekContext';
+import { LocalTasksProvider } from '@/contexts/LocalTasksContext';
 
 const queryClient = new QueryClient()
 
@@ -43,16 +44,18 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <MoodProvider>
-            <DeepSeekProvider>
-              <SafeAreaView style={{flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom, backgroundColor: '#222531'}}>
-                <Slot />
-                {/* <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(auth)" />
-                  <Stack.Screen name="(app)" />
-                </Stack> */}
-                <StatusBar backgroundColor={'#222531'} barStyle={'light-content'} />
-              </SafeAreaView>
-            </DeepSeekProvider>
+            <LocalTasksProvider>
+              <DeepSeekProvider>
+                <SafeAreaView style={{flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom, backgroundColor: '#222531'}}>
+                  <Slot />
+                  {/* <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="(auth)" />
+                    <Stack.Screen name="(app)" />
+                  </Stack> */}
+                  <StatusBar backgroundColor={'#222531'} barStyle={'light-content'} />
+                </SafeAreaView>
+              </DeepSeekProvider>
+            </LocalTasksProvider>
           </MoodProvider>
         </ThemeProvider>
       </QueryClientProvider>

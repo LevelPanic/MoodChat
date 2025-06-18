@@ -1,3 +1,4 @@
+import { ParsedTask, TaskWithPriority } from '@/types';
 import moment from 'moment';
 import { Dimensions } from 'react-native';
 moment.locale('en-US'); // Set locale for formatting (optional)
@@ -6,8 +7,21 @@ export function capitalizeFirstLetter(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
+export function classifyPriority(task: ParsedTask): TaskWithPriority['priority'] {
+  if (!task.due) return 'backlog';
+
+  const [dd, mm, yyyy] = task.due.split('-').map(Number);
+  const due = new Date(yyyy, mm - 1, dd);
+  const now = new Date();
+  const diffDays = (due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+
+  if (diffDays < 0) return 'backlog';
+  if (diffDays <= 2) return 'high';
+  return 'low';
+}
+
 export function formatDate(dateString: string) {
-  const formattedDate = moment(dateString).format('YYYY-MM-DD h:mm A');
+  const formattedDate = moment(dateString).format('YYYY-MM-DD');
   return formattedDate;
 }
 export function formatCnic(value: string) {
@@ -132,40 +146,38 @@ export function formatCurrency(number: number) {
   return words.trim() + ' Rupees';
 }
 
-export function getTimeSince(dateString: string) {
-  const now = moment();
-  const then = moment(dateString);
+export function getTimeSince(dateInput: string): string {
+  const now = Date.now();
+  let thenMs: number;
 
-  const diffInMilliseconds = now.diff(then);
-
-  // Calculate difference in various units (seconds, minutes, hours, days)
-  const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  const diffInDays = Math.floor(diffInHours / 24);
-
-  // Define thresholds for unit selection
-  const oneMinute = 60;
-  const oneHour = oneMinute * 60;
-  const oneDay = oneHour * 24;
-  const oneWeek = oneDay * 7;
-
-  // Logic for selecting the appropriate unit and formatting
-  let formattedTime;
-  if (diffInDays >= 7) {
-    formattedTime = `${Math.floor(diffInDays / 7)} weeks ago`;
-  } else if (diffInDays >= 1) {
-    formattedTime = `${diffInDays} days ago`;
-  } else if (diffInHours >= 1) {
-    formattedTime = `${diffInHours} hours ago`;
-  } else if (diffInMinutes > 0) {
-    // Ensure minutes is greater than 0
-    formattedTime = `${diffInMinutes} minutes ago`;
+  // Detect numeric input (seconds-since-epoch)
+  if (/^\d+$/.test(dateInput)) {
+    thenMs = parseInt(dateInput, 10) * 1000;
   } else {
-    formattedTime = `${diffInSeconds} seconds ago`;
+    // Assume any other string is ISO-parsable
+    thenMs = new Date(dateInput).getTime();
   }
 
-  return formattedTime;
+  const diffMs = now - thenMs;
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHr = Math.floor(diffMin / 60);
+  const diffDays = Math.floor(diffHr / 24);
+  const diffWk = Math.floor(diffDays / 7);
+
+  if (diffWk >= 1) {
+    return diffWk === 1 ? '1 week ago' : `${diffWk} weeks ago`;
+  } else if (diffDays >= 1) {
+    return diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
+  } else if (diffHr >= 1) {
+    return diffHr === 1 ? '1 hour ago' : `${diffHr} hours ago`;
+  } else if (diffMin >= 1) {
+    return diffMin === 1 ? '1 minute ago' : `${diffMin} minutes ago`;
+  } else {
+    // show seconds (never negative)
+    const secs = Math.max(diffSec, 0);
+    return secs <= 1 ? '1 second ago' : `${secs} seconds ago`;
+  }
 }
 
 export function delay(ms: number) {
