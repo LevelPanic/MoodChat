@@ -26,7 +26,7 @@ export function parseChat(
       id:          `${new Date()}`,
       title:       fields.TITLE       || '',
       description: fields.DESCRIPTION || '',
-      due:         fields.due         || '',
+      due:         fields.DUE         || '',
       reminder:    fields.REMINDER === 'true',
     };
     tasks.push(task);

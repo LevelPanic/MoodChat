@@ -16,7 +16,7 @@ export default (props: { messages: any[], openMessageModal: (message: any) => vo
   // Render each message
   const renderMessage = ({ item }: any) => {
     let {content, tasks} = parseChat(item.content)
-    console.log(tasks)
+    // console.log(tasks)
     if (item.role === "system") {
       return <View />;
     }
