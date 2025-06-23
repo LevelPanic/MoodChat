@@ -13,13 +13,16 @@ const TASKS_API_URL =
 export async function submitTasks(
   tasks: ParsedTask[],
   authToken: string
-): Promise<Task | undefined> {
+): Promise<Task[] | undefined> {
+  // console.log(tasks)
   // Helper to turn "DD-MM-YYYY" into an RFC3339 midnight UTC string
   const formatDue = (date: string) => {
     const [dd, mm, yyyy] = date.split('-').map(Number);
     // create UTC date at midnight
     return new Date(Date.UTC(yyyy, mm - 1, dd, 0, 0, 0)).toISOString();
   };
+
+  let submittedTasks: Task[] = [];
 
   // Fire off each insertion in series (you can use Promise.all for parallel)
   for (const task of tasks) {
@@ -49,9 +52,9 @@ export async function submitTasks(
     }
 
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     // data.status will be "needsAction"
-    return {
+    submittedTasks.push({
       id:          data.id,
       title:       data.title,
       description: data.notes || '',
@@ -66,8 +69,10 @@ export async function submitTasks(
       })!,
       status: 'needsAction',
       comments: []
-    };
+    });
   }
+
+  return submittedTasks;
 }
 
 interface GoogleTaskItem {

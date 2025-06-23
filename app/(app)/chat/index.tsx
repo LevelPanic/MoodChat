@@ -40,12 +40,13 @@ const ChatScreen = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(selectedTasks);
     await submitTasks(selectedTasks, auth.user?.token!);
     taskMenuRef.current.close();
     setCurrentMessage(undefined);
   }
   
-  console.log(currentMessage)
+  // console.log(currentMessage)
   
   return (
     <SafeAreaView style={styles.container}>

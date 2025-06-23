@@ -6,32 +6,30 @@ export function parseChat(
   const tasks: ParsedTask[] = [];
   let updated = content;
 
-  // Matches one [TASK]...[/TASK] block
-  const blockRegex = /\[TASK\]([\s\S]*?)\[\/TASK\]/;
-  // Matches LABEL:(value);
-  const pairRegex  = /(\w+):\(([^)]*)\);/g;
+  // Grab one <task> … </task> block (non-greedy)
+  const blockRegex = /<task>([\s\S]*?)<\/task>/;
+  // Capture the inner text of each tag
+  const tag = (name: string, body: string) => {
+    const m = body.match(new RegExp(`<${name}>([\\s\\S]*?)<\\/${name}>`, 'i'));
+    return m ? m[1].trim() : '';
+  };
 
   let match: RegExpMatchArray | null;
   while ((match = updated.match(blockRegex))) {
     const [wholeBlock, body] = match;
 
-    // 1️⃣ Extract fields
-    const fields: Record<string, string> = {};
-    for (const [, key, val] of body.matchAll(pairRegex)) {
-      fields[key.toUpperCase()] = val.trim();
-    }
+    const due = tag('due', body)
 
-    // 2️⃣ Build task object
     const task: ParsedTask = {
-      id:          `${new Date()}`,
-      title:       fields.TITLE       || '',
-      description: fields.DESCRIPTION || '',
-      due:         fields.DUE         || '',
-      reminder:    fields.REMINDER === 'true',
+      id:          Date.now().toString(),
+      title:       tag('title', body),
+      description: tag('desc', body),
+      due:         due.slice(0, due.lastIndexOf('-')),
+      reminder:    tag('reminder', body).toLowerCase() === 'true',
     };
     tasks.push(task);
 
-    // 3️⃣ Remove that block, replacing it with the title
+    // Replace the entire block with the task title
     updated = updated.replace(wholeBlock, task.title);
   }
 

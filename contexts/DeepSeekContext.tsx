@@ -9,6 +9,7 @@ import React, {
 import * as ExpoStorage from 'expo-storage';
 import { createChatCompletion } from '../api/deepseek';
 import { useMood } from './MoodContext';
+import { getNowStrings } from '@/utils/helpers';
 
 
 
@@ -25,7 +26,7 @@ interface DeepSeekContextType {
   sendMessage(content: string): Promise<void>;
 }
 
-const STORAGE_KEY = 'deepseek_chat_messages';
+const STORAGE_KEY = 'moody-chats';
 export async function saveChat(messages: any[]) {
   await ExpoStorage.Storage.setItem({key: STORAGE_KEY, value: JSON.stringify(messages)});
 }
@@ -87,6 +88,7 @@ export const DeepSeekProvider: React.FC<{ children: React.ReactNode }> = ({
   // 3️⃣ Freeform chat
   const sendMessage = async (content: string) => {
     setLoadingReply(true);
+
     const userMsg: ChatMessage = { id: Date.now(), role: 'user', content };
     
     const moodMsg: ChatMessage = {
@@ -94,13 +96,21 @@ export const DeepSeekProvider: React.FC<{ children: React.ReactNode }> = ({
       role: 'system',
       content: `Current Mood: ${mood}`,
     };
+
+    const { iso, readable } = getNowStrings();
+    const dateTimeMsg: ChatMessage = {
+      id: Date.now()+1,
+      role: 'system',
+      content: `Current Date and Time: ${readable}`,
+    }
+
     setMessages((prev) => [...prev, userMsg]);
 
-    const sanitized = [...messages, moodMsg, userMsg].map(({ id, ...rest }) => rest);
+    const sanitized = [...messages, moodMsg, dateTimeMsg, userMsg].map(({ id, ...rest }) => rest);
 
     const resp = await createChatCompletion(sanitized);
     setLoadingReply(false);
-    console.log(resp.choices[0].message);
+    // console.log(resp.choices[0].message);
     const reply: ChatMessage = { id: Date.now(), role: 'assistant', content: resp.choices[0].message.content };
     setMessages((prev) => [...prev, reply]);
 

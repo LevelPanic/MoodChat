@@ -156,9 +156,9 @@ export default function Tasks() {
         description: form.description,
         due: form.due,
         reminder: form.reminder,
-      }], auth.user?.token!).then(task => {
-        if (task)
-          setLocalTasks(prev => [...prev, task])
+      }], auth.user?.token!).then(tasks => {
+        if (tasks)
+          setLocalTasks(prev => [...prev, ...tasks])
       })
     else if (formType === 'edit')
       await updateGoogleTask(auth.user?.token!, currentTask?.id!, {...form}).then(task => {

@@ -15,9 +15,26 @@ export function classifyPriority(task: ParsedTask): TaskWithPriority['priority']
   const now = new Date();
   const diffDays = (due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
 
-  if (diffDays < 0) return 'backlog';
   if (diffDays <= 2) return 'high';
-  return 'low';
+  if (diffDays <= 7) return 'low';
+  return 'backlog';
+}
+
+export function getNowStrings() {
+  const now = new Date();
+  return {
+    iso: now.toISOString(),                          // "2025-06-23T14:22:07.000Z"
+    readable: now.toLocaleString('en-GB', {          // "23/06/2025, 19:22:07" (device tz)
+      hour12: false,
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    }),
+  };
 }
 
 export function formatDate(dateString: string) {
